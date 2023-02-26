@@ -1,5 +1,22 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+// import React, { useState } from "react";
+import Layout from "./Layout.js";
+import About from "./About.js";
+import Skills from "./Skills.js";
+import Notes from "./Notes.js";
+// import notes from "./notes.js";
+
 function App() {
-  return <h1>Lotion</h1>;
+  return(
+  <BrowserRouter>
+    <Routes>
+      <Route element={<Layout />}>
+        <Route path="/" element={<Notes />} />
+        <Route path="/skills" element={<Skills />} />
+      </Route>
+    </Routes>
+  </BrowserRouter>
+  )
 }
 
 export default App;
