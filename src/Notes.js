@@ -9,14 +9,22 @@ export default function Notes() {
     // notesID = "newNote"
     // const [content, setContent] = useState('');
     
-    // const handleContentChange = (value) => {
-    //     setContent(value);
-    // };
-
+    const handleContentChange = (value) => {
+        setContent(value);
+    };
+    function newContent(){
+        document.getElementById("theContent").innerHTML = content;
+    }
     return (
-        <div>Details about notes {notesID}</div>
-    // <div>
-    //     <ReactQuill value={content} onChange={handleContentChange} />    
-    // </div>
+
+    <div>
+        <ReactQuill value={content} onChange={handleContentChange} />    
+        <div>
+            <button onClick={newContent}>Save</button>
+            <div id="theContent"/>
+        </div>
+
+    </div>
+    
   )
 }
