@@ -82,9 +82,22 @@ function saveNote(){
   const item = JSON.parse(localStorage.getItem('note1'));
   const item2 = JSON.parse(localStorage.getItem('note2'));
   
+  // console.log(item)
+  document.getElementById("theContent").innerHTML = item.content
   itemContainer.push(item)
   itemContainer.push(item2)
+
+  const saveButton = document.getElementById("saveButton");
+  const editButton = document.createElement("button");
+  editButton.setAttribute("class", "hover:bg-slate-500 h-full p-[3vh]")
+  editButton.setAttribute("id", "editButton")
   
+  editButton.addEventListener("click", () => editNote())
+  // editButton.setAttribute("onClick", `editNote`)
+  editButton.innerHTML = "Edit"
+  saveButton.replaceWith(editButton)
+
+  // saveButton.replaceWith("Saved!")
 
 /*
 HTML Injection Method is not working.
@@ -121,6 +134,20 @@ May need to look into states and props.
   document.getElementById("notesContainer").innerHTML = htmlInjection
 */
 
+}
+function editNote(){
+  const editButton = document.getElementById("editButton");
+  const saveButton = document.createElement("button");
+  saveButton.setAttribute("class", "hover:bg-slate-500 h-full p-[3vh]")
+  saveButton.setAttribute("id", "saveButton")
+  // saveButton.setAttribute("onClick", {saveNote})
+  saveButton.addEventListener("click", () => saveNote())
+  saveButton.innerHTML = "Save"
+  editButton.replaceWith(saveButton)
+}
+
+function fakeFunction(){
+  alert("hi")
 }
 
 function alertInput(myInput){
@@ -179,8 +206,8 @@ return formatted;
               <input id="noteTitle" className="border-2 placeholder:text-black outline-blue-500/0 bg-inherit border-blue-500/0 focus:outline-none" placeholder="Untitled"/>
               <div id= "noteButtons" className="text-xl float-right">
 
-                <button id="saveButton" className="hover:bg-slate-500 rounded-none h-full p-[3vh]" onClick={saveNote}>Save</button> 
-                <button id="deleteButton"className="hover:bg-slate-500 rounded-none p-[3vh]" onClick={deleteNote}>Delete</button>
+                <button id="saveButton" className="hover:bg-slate-500 h-full p-[3vh]" onClick={saveNote}>Save</button> 
+                <button id="deleteButton"className="hover:bg-slate-500 p-[3vh]" onClick={deleteNote}>Delete</button>
               </div>
             </div>
             <div id="Time" className="text-sm">
