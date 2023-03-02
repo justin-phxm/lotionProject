@@ -4,8 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 
 function Layout() {
   function stateInitial(){
-    console.log("stateInitial")
-    return ({count: 0, title: "title0", date: "date", content: "content"})
+    return ({count: 0, title: "Untitled", date: "", content: "..."})
 }
   const [state, setState] = useState(() => stateInitial());
   const count = state.count
@@ -35,11 +34,11 @@ function Layout() {
       const contentDiv = document.createElement("div");
       const separatorDiv = document.createElement("div");
 
-      titleDiv.innerHTML = `title${count + 1}`
-      dateDiv.innerHTML = `date${count + 1}`
-      contentDiv.innerHTML = `content${count + 1}`
+      titleDiv.innerHTML = state.title
+      dateDiv.innerHTML = ""
+      contentDiv.innerHTML = state.content
       
-      titleDiv.setAttribute("class", "font-bold text-2xl float-left")
+      titleDiv.setAttribute("class", "font-bold text-xl float-left")
       dateDiv.setAttribute("class", "text-sm text-neutral-500 text-light float-left")
       contentDiv.setAttribute("class", "float-left")
       separatorDiv.setAttribute("class", "h-px bg-slate-100")
@@ -52,10 +51,14 @@ function Layout() {
       button.setAttribute("class", "focus:bg-slate-600 focus:text-white hover:bg-slate-500 w-full p-2")
       button.setAttribute("id", `title${count + 1}`)
       button.setAttribute("onClick", `window.alert(${count + 1})`)
+      if(document.getElementById("empty") != null){
+        document.getElementById("empty").remove()
+      }
+      
       document.getElementById("notesContainer").appendChild(button);
       document.getElementById("notesContainer").appendChild(separatorDiv);
 
-      setState(prevState => ({...prevState, count: count + 1, title: `title${count + 1}`}))
+      setState(prevState => ({...prevState, count: count + 1, title: `Untitled${count + 1}`}))
   }
   
 function hideNotes(){
@@ -84,42 +87,6 @@ function saveNote(){
   
   itemContainer.push(item)
   itemContainer.push(item2)
-  
-
-/*
-HTML Injection Method is not working.
-CSS does not apply to the injected HTML.
-Arrow functions are not working in the injected HTML.
-
-May need to look into states and props.
-
-
-  let htmlInjection = ""
-  for(let i = 0; i < itemContainer.length; i++){
-      
-    //   htmlInjection += `
-    //   <div className="focus:bg-slate-600 focus:text-white">
-    //     <button className="hover:bg-slate-500 w-full" onClick={() => alertInput(${i})}>
-    //       <div className="font-bold text-2xl float-left">${itemContainer[i].title}</div>
-    //       <div className="text-sm text-neutral-500 text-light float-left">${itemContainer[i].date}</div>
-    //       <div className="float-left">${itemContainer[i].content}</div>
-    //     </button>
-    //   </div>
-    // <div className="h-px bg-slate-100"/>`
-      htmlInjection += `
-      <div className="focus:bg-slate-600 focus:text-white">
-        <button className="hover:bg-slate-500 w-full">
-          <div className="font-bold text-2xl float-left">${itemContainer[i].title}</div>
-          <div className="text-sm text-neutral-500 text-light float-left">${itemContainer[i].date}</div>
-          <div className="float-left">${itemContainer[i].content}</div>
-        </button>
-      </div>
-    <div className="h-px bg-slate-100"/>`
-
-  }
-
-  document.getElementById("notesContainer").innerHTML = htmlInjection
-*/
 
 }
 
@@ -136,14 +103,14 @@ hour: "numeric",
 minute: "numeric",
 };
 
-const formatDate = (when) => {
-const formatted = new Date(when).toLocaleString("en-US", options);
-if (formatted === "Invalid Date") {
-    return "";
+function formatDate(){
+  // const time = Date.now()
+  // console.log(time)
+  const date = new Date().toLocaleString("en-US", options)
+  // console.log(date)
+  return date
 }
-console.log(formatted)
-return formatted;
-};
+
   return (
     <>
       <header className="flex flex-col text-center h-[7vh]">
@@ -157,18 +124,11 @@ return formatted;
         <div id="userNotes" className="col-span-1  bg-slate-200 h-[91vh]">
           <div id="addNotesBar" className="bg-slate-300 font-bold text-xl">
             Notes
-            <button id="newNote" className="text-xl float-right" onClick={newNote}>+</button>
+            <button id="newNote" className="text-xl float-right hover:bg-slate-500" onClick={newNote}>+</button>
           </div>
           <div className="h-px bg-slate-100"/>
           <div id="notesContainer">
-            <div className="focus:bg-slate-600 focus:text-white">
-              <button className="hover:bg-slate-500 w-full" onClick={() => alertInput(1)}>
-                <div className="font-bold text-2xl float-left">Untitled</div>
-                <div className="text-sm text-neutral-500 text-light float-left">January 1, 2021, 12:00:00 AM</div>
-                <div className="float-left">HelloWorld</div>
-              </button>
-            </div>
-            <div className="h-px bg-slate-100"></div>
+            <span id="empty" className="font-light">No Note yet</span>
 
           </div>
         </div>
@@ -184,7 +144,8 @@ return formatted;
               </div>
             </div>
             <div id="Time" className="text-sm">
-              <input type="datetime-local" className="bg-inherit" onLoad={formatDate}/>
+              <input type="datetime-local" className="bg-inherit" onLoad={formatDate} placeholder="Hello World"/>
+              <button onClick={formatDate}>Click for date here</button>
             </div>
           </div>
           <div id="content" className="h-[82vh]">

@@ -13,6 +13,7 @@ function App() {
       <Route element={<Layout />}>
         <Route path="/" element={<Notes />} />
         <Route path="/skills" element={<Skills />} />
+        <Route path="/notes/:notesID" element={<Notes />} />
       </Route>
     </Routes>
   </BrowserRouter>
