@@ -1,7 +1,7 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import React, { useState, useRef, useEffect } from "react";
-import React,  { useState } from 'react'
-import { useParams } from "react-router-dom"
+// import React,  { useState } from 'react'
+// import { useParams } from "react-router-dom"
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
@@ -18,7 +18,7 @@ function Layout() {
   }
   function stateInitial(){
     return ({count: 0, title: "Untitled", date: "", content: "..."})
-}
+  }
   const [state, setState] = useState(() => stateInitial());
   const count = state.count
   const title = state.title
@@ -32,10 +32,11 @@ function Layout() {
       if(answer){
         const button = document.getElementById(`title${count}`)
         const separator = document.getElementById(`${count}Separator`)
-        console.log((`title${count}`))
+        // console.log((`title${count}`))
         button.remove()
         separator.remove()
-        setState(prevState => ({...prevState, count: count - 1, title: `title${count - 1}`}))
+        console.log("You have deleted: " + count)
+        setState(prevState => ({...prevState, count: count - 1, title: `Untitled${count - 1}`}))
       }
     }
   }
@@ -70,7 +71,7 @@ function Layout() {
       
       document.getElementById("notesContainer").appendChild(button);
       document.getElementById("notesContainer").appendChild(separatorDiv);
-
+      console.log("You have added: " + count)
       setState(prevState => ({...prevState, count: count + 1, title: `Untitled${count + 1}`}))
   }
   

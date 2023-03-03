@@ -11,8 +11,8 @@ function App() {
   <BrowserRouter>
     <Routes>
       <Route element={<Layout />}>
-        <Route path="/" element={<Notes />} />
-        <Route path="/skills" element={<Skills />} />
+        <Route path="/" element={<Skills />} />
+        {/* <Route path="/skills" element={<Skills />} /> */}
         <Route path="/notes/:notesID" element={<Notes />} />
       </Route>
     </Routes>
