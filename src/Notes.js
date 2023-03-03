@@ -5,26 +5,10 @@ import 'react-quill/dist/quill.snow.css';
 
 
 export default function Notes() {
-    const { notesID } = useParams();
-    // notesID = "newNote"
-    // const [content, setContent] = useState('');
-    
-    const handleContentChange = (value) => {
-        setContent(value);
-    };
-    function newContent(){
-        document.getElementById("theContent").innerHTML = content;
-    }
     return (
-
-    <div>
-        <ReactQuill value={content} onChange={handleContentChange} />    
-        <div>
-            <button onClick={newContent}>Save</button>
-            <div id="theContent"/>
-        </div>
-
-    </div>
-    
+      <div>
+          <ReactQuill id="quill" value={content} onChange={handleContentChange} />    
+          <div id="theContent"/>
+      </div>
   )
 }

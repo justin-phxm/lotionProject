@@ -1,8 +1,21 @@
 import { Outlet } from "react-router-dom";
 import React, { useState, useRef, useEffect } from "react";
+import React,  { useState } from 'react'
+import { useParams } from "react-router-dom"
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 
 function Layout() {
+  const { notesID } = useParams();
+  // noteID is the variable that holds the value of the notesID.
+  // We can use this to get the note from the database.
+  const [content, setContent] = useState('');
+  
+  const handleContentChange = (value) => {
+      setContent(value);
+      document.getElementById("theContent").innerHTML = content;
+  }
   function stateInitial(){
     return ({count: 0, title: "Untitled", date: "", content: "..."})
 }
@@ -10,7 +23,7 @@ function Layout() {
   const count = state.count
   const title = state.title
   const date = state.date
-  const content = state.content
+  const notecontent = state.content
 
   function deleteNote(){
     if(count > 0){
@@ -86,78 +99,44 @@ function saveNote(){
   const item2 = JSON.parse(localStorage.getItem('note2'));
   
   // console.log(item)
-  document.getElementById("theContent").innerHTML = item.content
+  // document.getElementById("theContent").innerHTML = item.content
+  document.getElementById("theContent").innerHTML = data.content;
   itemContainer.push(item)
   itemContainer.push(item2)
-<<<<<<< HEAD
-=======
 
+  // console.log("Saved")
   const saveButton = document.getElementById("saveButton");
   const editButton = document.createElement("button");
-  editButton.setAttribute("class", "hover:bg-slate-500 h-full p-[3vh]")
   editButton.setAttribute("id", "editButton")
-  
+  editButton.setAttribute("class", "hover:bg-slate-500 h-full p-[3vh]")
   editButton.addEventListener("click", () => editNote())
-  // editButton.setAttribute("onClick", `editNote`)
   editButton.innerHTML = "Edit"
   saveButton.replaceWith(editButton)
 
-  // saveButton.replaceWith("Saved!")
 
-/*
-HTML Injection Method is not working.
-CSS does not apply to the injected HTML.
-Arrow functions are not working in the injected HTML.
+  //hide quill editor
+  const quill = document.getElementById("quill")
+  // console.log(quill)
+  quill.setAttribute("class", "hidden")
 
-May need to look into states and props.
-
-
-  let htmlInjection = ""
-  for(let i = 0; i < itemContainer.length; i++){
-      
-    //   htmlInjection += `
-    //   <div className="focus:bg-slate-600 focus:text-white">
-    //     <button className="hover:bg-slate-500 w-full" onClick={() => alertInput(${i})}>
-    //       <div className="font-bold text-2xl float-left">${itemContainer[i].title}</div>
-    //       <div className="text-sm text-neutral-500 text-light float-left">${itemContainer[i].date}</div>
-    //       <div className="float-left">${itemContainer[i].content}</div>
-    //     </button>
-    //   </div>
-    // <div className="h-px bg-slate-100"/>`
-      htmlInjection += `
-      <div className="focus:bg-slate-600 focus:text-white">
-        <button className="hover:bg-slate-500 w-full">
-          <div className="font-bold text-2xl float-left">${itemContainer[i].title}</div>
-          <div className="text-sm text-neutral-500 text-light float-left">${itemContainer[i].date}</div>
-          <div className="float-left">${itemContainer[i].content}</div>
-        </button>
-      </div>
-    <div className="h-px bg-slate-100"/>`
-
-  }
-
-  document.getElementById("notesContainer").innerHTML = htmlInjection
-*/
->>>>>>> 0d408c17cc5862fa1171034d8037fbb9c86fd0fc
-
+  const noteContent = document.getElementById("theContent")
+  noteContent.setAttribute("class", "visible")
 }
 function editNote(){
+  // console.log("Edited")
   const editButton = document.getElementById("editButton");
   const saveButton = document.createElement("button");
   saveButton.setAttribute("class", "hover:bg-slate-500 h-full p-[3vh]")
   saveButton.setAttribute("id", "saveButton")
-  // saveButton.setAttribute("onClick", {saveNote})
   saveButton.addEventListener("click", () => saveNote())
   saveButton.innerHTML = "Save"
   editButton.replaceWith(saveButton)
-}
 
-function fakeFunction(){
-  alert("hi")
-}
-
-function alertInput(myInput){
-alert(myInput)
+  //show quill editor
+  const quill = document.getElementById("quill")
+  quill.setAttribute("class", "visible")
+  const noteContent = document.getElementById("theContent")
+  noteContent.setAttribute("class", "hidden")
 }
 
 
@@ -218,7 +197,11 @@ function formatDate(){
           {/* <h1>HelloWorld</h1> */}
 
           {/* child components get injected here and replace <Outlet /> */}
-          <Outlet />
+          {/* <Outlet /> */}
+          <div>
+            <ReactQuill id="quill" value={content} onChange={handleContentChange} />    
+            <div id="theContent"/>
+          </div>
         </div>
         </div>
 
