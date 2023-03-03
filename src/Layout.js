@@ -11,19 +11,29 @@ function Layout() {
   // noteID is the variable that holds the value of the notesID.
   // We can use this to get the note from the database.
   const [content, setContent] = useState('');
-  
   const handleContentChange = (value) => {
       setContent(value);
-      document.getElementById("theContent").innerHTML = content;
+      // console.log(content)
+      // document.getElementById("theContent").innerHTML = content;
   }
+
   function stateInitial(){
     return ({count: 0, title: "Untitled", date: "", content: "..."})
   }
   const [state, setState] = useState(() => stateInitial());
   const count = state.count
   const title = state.title
-  const date = state.date
-  const notecontent = state.content
+  // const date = state.date
+  // const notecontent = state.content
+  useEffect(() =>{
+    // console.log('render')
+    document.getElementById("theContent").innerHTML = content;
+    // data.content = content
+  }, [content])
+  useEffect(() =>{
+    formatDate()
+    console.log("You are on count: " +  count)
+  }, [])
 
   function deleteNote(){
     if(count > 0){
@@ -71,9 +81,10 @@ function Layout() {
       
       document.getElementById("notesContainer").appendChild(button);
       document.getElementById("notesContainer").appendChild(separatorDiv);
-      console.log("You have added: " + count)
+      
       setState(prevState => ({...prevState, count: count + 1, title: `Untitled${count + 1}`}))
-  }
+      console.log("You are now on count: " + count)
+    }
   
 function hideNotes(){
   let userNotes = document.getElementById("userNotes")
@@ -88,24 +99,30 @@ function hideNotes(){
 }
 
 function saveNote(){
-  const itemContainer = []
-
-  const data = {title: "myNote1", date:"October 31", content: "H:appy Halloween!"}
-  const data2 = {title: "myNote2", date:"December 25", content: "Merry Christmas!"}
-
-  localStorage.setItem('note1', JSON.stringify(data));
-  localStorage.setItem('note2', JSON.stringify(data2))
-
-  const item = JSON.parse(localStorage.getItem('note1'));
-  const item2 = JSON.parse(localStorage.getItem('note2'));
+  //Problem is count is not updating when new note is created. count is always value 1.
+  // Problem could be in newNote(). Watch useState video and review again. Could be const keyword causing errors.
+  // maybe use state.count or update with useEffect().
   
-  // console.log(item)
-  // document.getElementById("theContent").innerHTML = item.content
-  document.getElementById("theContent").innerHTML = data.content;
-  itemContainer.push(item)
-  itemContainer.push(item2)
+  console.log("Saving for note" + count)
+  let noteData = document.getElementById("theContent").innerHTML
 
-  // console.log("Saved")
+  const theTitle = document.getElementById("noteTitle").value
+  const theDate = document.getElementById("noteTime").value
+  const data = {title: theTitle, date:theDate, content: noteData}
+  // const data2 = {title: "myNote2", date:"December 25", content: "Merry Christmas!"}
+  localStorage.setItem(`note${count}`, JSON.stringify(data));
+  // localStorage.setItem('note2', JSON.stringify(data2))
+
+  let item = JSON.parse(localStorage.getItem(`note${count}`));
+  // const item2 = JSON.parse(localStorage.getItem('note2'));
+  // console.log
+  for (var i = 0; i < localStorage.length; i++){
+    // console.log(`note${i}`)  
+    console.log(localStorage.getItem(`note${i}`))
+  }
+
+
+  //Change Save Button to Edit
   const saveButton = document.getElementById("saveButton");
   const editButton = document.createElement("button");
   editButton.setAttribute("id", "editButton")
@@ -117,9 +134,9 @@ function saveNote(){
 
   //hide quill editor
   const quill = document.getElementById("quill")
-  // console.log(quill)
   quill.setAttribute("class", "hidden")
 
+  // Show Content
   const noteContent = document.getElementById("theContent")
   noteContent.setAttribute("class", "visible")
 }
@@ -148,18 +165,17 @@ day: "numeric",
 hour: "numeric",
 minute: "numeric",
 };
-
 function formatDate(){
-  // const time = Date.now()
-  // console.log(time)
-  const date = new Date().toLocaleString("en-US", options)
-  // console.log(date)
-  return date
+  // const date = new Date().toLocaleString("en-US", options)
+  const date = new Date().toISOString().slice(0, 10) + "T10:15"
+  document.getElementById("noteTime").value = date
 }
+
+
 
   return (
     <>
-      <header className="flex flex-col text-center h-[7vh]">
+      <header className="flex flex-col text-center ">
           <div className="text-3xl font-bold" > <span className= "float-left">
             <button id="menuButton" onClick={hideNotes}>&#9776;</button>
             </span>Lotion</div>
@@ -190,8 +206,8 @@ function formatDate(){
               </div>
             </div>
             <div id="Time" className="text-sm">
-              <input type="datetime-local" className="bg-inherit" onLoad={formatDate} placeholder="Hello World"/>
-              <button onClick={formatDate}>Click for date here</button>
+              <input id="noteTime" type="datetime-local" className="bg-inherit"/>
+              {/* <button onClick={formatDate}>Click for date here</button> */}
             </div>
           </div>
           <div id="content" className="h-[82vh]">
@@ -201,7 +217,7 @@ function formatDate(){
           {/* <Outlet /> */}
           <div>
             <ReactQuill id="quill" value={content} onChange={handleContentChange} />    
-            <div id="theContent"/>
+            <div id="theContent" className="hidden"/>
           </div>
         </div>
         </div>
