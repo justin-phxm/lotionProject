@@ -30,15 +30,20 @@ function Layout() {
     document.getElementById("theContent").innerHTML = content;
     // data.content = content
   }, [content])
+  // On page load...
   useEffect(() =>{
     formatDate()
-    console.log("You are on count: " +  count)
+    // console.log("You are on count: " +  count)
+    for (var i = 0; i < localStorage.length; i++){
+        console.log(localStorage.getItem(`note${i}`))
+      }
   }, [])
 
   function deleteNote(){
     if(count > 0){
       console.log("decrement State")
-      const answer = window.confirm(`Are you sure you want to delete ${title}?`)  
+      const noteTitle = document.getElementById("noteTitle").value
+      const answer = window.confirm(`Are you sure you want to delete note ${noteTitle}?`)  
       if(answer){
         const button = document.getElementById(`title${count}`)
         const separator = document.getElementById(`${count}Separator`)
@@ -82,7 +87,7 @@ function Layout() {
       document.getElementById("notesContainer").appendChild(button);
       document.getElementById("notesContainer").appendChild(separatorDiv);
       
-      setState(prevState => ({...prevState, count: count + 1, title: `Untitled${count + 1}`}))
+      setState(prevState => ({...prevState, count: count + 1, title: `Untitled`}))
       console.log("You are now on count: " + count)
     }
   
@@ -104,23 +109,31 @@ function saveNote(){
   // maybe use state.count or update with useEffect().
   
   console.log("Saving for note" + count)
+  let theTitle = document.getElementById("noteTitle").value
+  let theDate = document.getElementById("noteTime").value  
   let noteData = document.getElementById("theContent").innerHTML
-
-  const theTitle = document.getElementById("noteTitle").value
-  const theDate = document.getElementById("noteTime").value
-  const data = {title: theTitle, date:theDate, content: noteData}
-  // const data2 = {title: "myNote2", date:"December 25", content: "Merry Christmas!"}
-  localStorage.setItem(`note${count}`, JSON.stringify(data));
-  // localStorage.setItem('note2', JSON.stringify(data2))
-
-  let item = JSON.parse(localStorage.getItem(`note${count}`));
-  // const item2 = JSON.parse(localStorage.getItem('note2'));
-  // console.log
-  for (var i = 0; i < localStorage.length; i++){
-    // console.log(`note${i}`)  
-    console.log(localStorage.getItem(`note${i}`))
+  if(theTitle === ""){
+    theTitle = "Untitled"
+  }
+  if(noteData === ""){
+    noteData = "..."
   }
 
+  const data = {title: theTitle, date:theDate, content: noteData}
+  localStorage.setItem(`note${count}`, JSON.stringify(data));
+
+  // let item = JSON.parse(localStorage.getItem(`note${count}`));
+  // for (var i = 0; i < localStorage.length; i++){
+  //   console.log(localStorage.getItem(`note${i}`))
+  // }
+
+  // Update note Button content
+  const noteButton = document.getElementById(`title${count}`)
+  // console.log(noteButton)
+  noteButton.childNodes[0].innerHTML = data.title
+  // Update functionality...
+  noteButton.childNodes[1].innerHTML = formattedDate()
+  noteButton.childNodes[2].innerHTML = data.content
 
   //Change Save Button to Edit
   const saveButton = document.getElementById("saveButton");
@@ -171,6 +184,11 @@ function formatDate(){
   document.getElementById("noteTime").value = date
 }
 
+// Would like for formattedDate() to accept a date parameter and return in the specified format.
+function formattedDate(){
+  const date = new Date().toLocaleString("en-US", options)
+  return date
+}
 
 
   return (
@@ -195,7 +213,7 @@ function formatDate(){
           </div>
         </div>
 
-        <div id="noteBar" className="col-span-5 h-[91vh]">
+        <div id="noteBar" className="col-span-5 h-[91vh] ">
           <div id="noteInfo" className="bg-red-500 h-[9vh]"> 
             <div id="Title" className="text-3xl">
               <input id="noteTitle" className="border-2 placeholder:text-black outline-blue-500/0 bg-inherit border-blue-500/0 focus:outline-none" placeholder="Untitled"/>
@@ -207,7 +225,6 @@ function formatDate(){
             </div>
             <div id="Time" className="text-sm">
               <input id="noteTime" type="datetime-local" className="bg-inherit"/>
-              {/* <button onClick={formatDate}>Click for date here</button> */}
             </div>
           </div>
           <div id="content" className="h-[82vh]">
