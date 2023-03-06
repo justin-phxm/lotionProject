@@ -41,7 +41,7 @@ function Layout() {
         let data = JSON.parse(localStorage.getItem(`note${i}`))
         if(data !== null){
           // console.log(data)
-          let theButton = myFunc(i, data.title, formattedDate(data.date), data.content)
+          let theButton = makeButton(i, data.title, formattedDate(data.date), data.content)
           // console.log(theButton)
           document.getElementById("notesContainer").appendChild(theButton);
           // setState(prevState => ({...prevState, title: theTitle, date: theDate, content: noteData}))
@@ -52,7 +52,25 @@ function Layout() {
     }
   }, [])
 
-  function myFunc(buttonCount, buttonTitle, buttonDate, buttonContent){
+  // function homeButton(){
+  //   // navigate("/notes/1")
+  //   console.log(this.value)
+  //   // print the value of the button that called this function
+    
+  // }
+
+  function Button(props) {
+    const handleClick = () =>{
+      console.log(props.value)
+    }
+    return (
+      <button onClick={handleClick}>
+         print Value
+      </button>
+    );
+  }
+
+  function makeButton(buttonCount, buttonTitle, buttonDate, buttonContent){
         // create button
       
       const button = document.createElement("button");
@@ -86,13 +104,28 @@ function Layout() {
       button.appendChild(contentDiv)
       button.setAttribute("class", "focus:bg-slate-600 focus:text-white hover:bg-slate-500 w-full p-2")
       button.setAttribute("id", `title${buttonCount}`)
-      button.setAttribute("onClick", `navigate('/${buttonCount}')`)
+      // button.setAttribute("onClick", `navigate('/${buttonCount}')`)
       // console.log(`/${buttonCount}`)
       let buttonComponent = document.createElement("div")
       buttonComponent.appendChild(button)
       buttonComponent.appendChild(separatorDiv)
+
+
+
       return(buttonComponent)
   }
+
+  // function myFunction2(){
+  //   var myAnchor = document.getElementById("demo");
+  //   var element = <Button value="1" />
+  //   myAnchor.parentNode.replaceChild(element, myAnchor);
+  // }
+
+  // function Welcome(props) {
+  //   return <h1>Hello, {props.name}</h1>;
+  // }
+  
+  // const element = <Welcome name="Sara" />;
 
   function deleteNote(){
     if(state.count > 0){
@@ -115,7 +148,7 @@ function Layout() {
     setState(prevState => ({...prevState, count: state.count + 1, title: "Untitled", date: "", content: ""}))
     // console.log("Currently Editing Note: " + (state.count + 1))
 
-    let theButton = myFunc((state.count + 1), "Untitled", formattedDate(formatDate()), "...")
+    let theButton = makeButton((state.count + 1), "Untitled", formattedDate(formatDate()), "...")
     document.getElementById("notesContainer").appendChild(theButton);
 
     //KEEP Below
@@ -296,6 +329,12 @@ function Layout() {
             <div id="noContent" className="h-[50vh] text-center">
               <div className="mt-56 text-xl font-light align-middle">Select a note, or create a new one.</div>
             </div>
+            {/* <Button value="123"/> */}
+            {/* <Button value="456"/> */}
+            {/* <button onClick={myFunction2}>myFunction2</button> */}
+            {/* <div id="demo">
+              <p>Test</p> */}
+            {/* </div> */}
           </div>
         </div>
         </div>
