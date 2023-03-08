@@ -1,7 +1,9 @@
-import { Outlet, useParams, useNavigate } from "react-router-dom";
+import { Link, Outlet, useParams, useNavigate } from "react-router-dom";
 import React, { useState, useRef, useEffect } from "react";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+// import Greet from "./components/Greet.js";
+import Button from "./components/Button.js";
 
 
 function Layout() {
@@ -52,24 +54,6 @@ function Layout() {
     }
   }, [])
 
-  // function homeButton(){
-  //   // navigate("/notes/1")
-  //   console.log(this.value)
-  //   // print the value of the button that called this function
-    
-  // }
-
-  function Button(props) {
-    const handleClick = () =>{
-      console.log(props.value)
-    }
-    return (
-      <button onClick={handleClick}>
-         print Value
-      </button>
-    );
-  }
-
   function makeButton(buttonCount, buttonTitle, buttonDate, buttonContent){
         // create button
       
@@ -104,29 +88,18 @@ function Layout() {
       button.appendChild(contentDiv)
       button.setAttribute("class", "focus:bg-slate-600 focus:text-white hover:bg-slate-500 w-full p-2")
       button.setAttribute("id", `title${buttonCount}`)
-      // button.setAttribute("onClick", `navigate('/${buttonCount}')`)
+      button.setAttribute("onClick", "{myFunction2}")
       // console.log(`/${buttonCount}`)
       let buttonComponent = document.createElement("div")
+      // var myPara = <p>"Hello WOrld"</p>
+      // button.appendChild(myPara)
       buttonComponent.appendChild(button)
       buttonComponent.appendChild(separatorDiv)
 
 
-
+    console.log(buttonComponent)
       return(buttonComponent)
   }
-
-  // function myFunction2(){
-  //   var myAnchor = document.getElementById("demo");
-  //   var element = <Button value="1" />
-  //   myAnchor.parentNode.replaceChild(element, myAnchor);
-  // }
-
-  // function Welcome(props) {
-  //   return <h1>Hello, {props.name}</h1>;
-  // }
-  
-  // const element = <Welcome name="Sara" />;
-
   function deleteNote(){
     if(state.count > 0){
       const button = document.getElementById(`title${state.count}`)
@@ -210,12 +183,6 @@ function Layout() {
     //Change Save Button to Edit
     const saveButton = document.getElementById("saveButton");
     const editButton = document.getElementById("editButton");
-    // editButton.setAttribute("id", "editButton")
-    // editButton.setAttribute("class", "hover:bg-slate-500 h-full p-[3vh]")
-    // editButton.addEventListener("click", () => editNote())
-    // editButton.innerHTML = "Edit"
-
-
 
     // DO NOT USE replaceWith() AS IT CAUSES ERROR IN UPDATING THE BUTTON
     // saveButton.replaceWith(editButton)
@@ -239,11 +206,6 @@ function Layout() {
   function editNote(){
     const editButton = document.getElementById("editButton");
     const saveButton = document.getElementById("saveButton");
-    // saveButton.setAttribute("class", "hover:bg-slate-500 h-full p-[3vh]")
-    // saveButton.setAttribute("id", "saveButton")
-    // saveButton.addEventListener("click", () => saveNote())
-    // saveButton.innerHTML = "Save"
-    // editButton.replaceWith(saveButton)
 
     //show quill editor
     const quill = document.getElementById("quill")
@@ -258,7 +220,6 @@ function Layout() {
     // Hide Edit Button
     editButton.setAttribute("class", "hidden")
   }
-
 
   const options = {
   year: "numeric",
@@ -299,7 +260,6 @@ function Layout() {
           <div className="h-px bg-slate-100"/>
           <div id="notesContainer">
             <span id="empty" className="font-light">No Note yet</span>
-
           </div>
         </div>
 
@@ -308,7 +268,6 @@ function Layout() {
             <div id="Title" className="text-3xl">
               <input id="noteTitle" className="border-2 placeholder:text-black outline-blue-500/0 bg-inherit border-blue-500/0 focus:outline-none"/>
               <div id= "noteButtons" className="text-xl float-right">
-
                 <button id="saveButton" className="hover:bg-slate-500 h-full p-[3vh]" onClick={saveNote}>Save</button> 
                 <button id="editButton" className="hidden hover:bg-slate-500 h-full p-[3vh]" onClick={editNote}>Edit</button>
                 <button id="deleteButton"className="hover:bg-slate-500 p-[3vh]" onClick={deleteNote}>Delete</button>
@@ -323,22 +282,18 @@ function Layout() {
 
           {/* child components get injected here and replace <Outlet /> */}
             {/* <Outlet /> */}
-          <div>
-            <ReactQuill id="quill" value={state.content} placeholder="Your Note Here" onChange={handleContentChange} className="hidden"/>    
-            <div id="theContent" className="hidden"/>
-            <div id="noContent" className="h-[50vh] text-center">
-              <div className="mt-56 text-xl font-light align-middle">Select a note, or create a new one.</div>
+            <div>
+              <ReactQuill id="quill" value={state.content} placeholder="Your Note Here" onChange={handleContentChange} className="hidden"/>    
+              <div id="theContent" className="hidden"/>
+              <div id="noContent" className="h-[50vh] text-center">
+                <div className="mt-56 text-xl font-light align-middle">Select a note, or create a new one.</div>
+              </div>
+              <button onClick={() => navigate("/skills")}>Visit Skills</button>
+              {/* <Greet person={{name:"John", age:20, likes:"Chicken"}} /> */}
+              {/* <Button info={{buttonCount: 0, buttonTitle: "Note0", buttonDate:"2004/01/01", buttonContent:"Hello WOrld"}}/> */}
             </div>
-            {/* <Button value="123"/> */}
-            {/* <Button value="456"/> */}
-            {/* <button onClick={myFunction2}>myFunction2</button> */}
-            {/* <div id="demo">
-              <p>Test</p> */}
-            {/* </div> */}
           </div>
         </div>
-        </div>
-
       </div>
     </>
   )
