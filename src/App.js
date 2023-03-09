@@ -10,6 +10,7 @@ export default function App() {
       <Route element={<Layout />}>
         <Route path="/" element = {<NotesList />} />
         <Route path="/notes/:notesID" element={<Notes />} />
+        <Route path="/notes/:notesID/edit" element={<Notes />} />
       </Route>
     </Routes>
   </BrowserRouter>
