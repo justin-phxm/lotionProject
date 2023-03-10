@@ -51,14 +51,10 @@ export default function Layout() {
     if(answer){
       const newNotes = state.filter(note => {return (note.id !== selected)})
       setState(newNotes)
+      let quillEditor = document.getElementById("quill")
+      quillEditor.setAttribute("class", "hidden")
     }
-    //     const separator = document.getElementById(`${state.count}Separator`)
-    //     button.remove()
-    //     separator.remove()
-    //     localStorage.removeItem(`note${state.count}`);
-    //     setState(prevState => ({...prevState, count: state.count - 1}))
-    //   }
-    // }
+
   }
   function handleNewNote(){ 
     // const title = noteTitleRef.current.value 
@@ -79,14 +75,13 @@ export default function Layout() {
       return [...prevState, {id: genID, title: "Untitled", date: formattedDate(formatDate()), content: ""}]
     })
     noteTitleRef.current.value = null
-    console.log(state.id)
+    // console.log(state.id)
     // //KEEP Below
     document.getElementById("quill").setAttribute("class", "visible")
     noteTimeRef.current.value = formatDate()
+    navigate(`/notes/${genID}`)
   }
-  // function navigateNote(id){
 
-  // }
 
 
   function hideNotes(){
@@ -159,9 +154,9 @@ export default function Layout() {
     const saveButton = document.getElementById("saveButton");
 
     //show quill editor
+    console.log(theContentRef.current.innerHTML)
     const quill = document.getElementById("quill")
     quill.setAttribute("class", "visible")
-    quill.value = theContentRef.current
 
     const contentDiv = document.getElementById("theContent")
     contentDiv.setAttribute("class", "hidden")
@@ -250,9 +245,6 @@ export default function Layout() {
               <div ref={noContentRef} id="noContent" className="h-[50vh] text-center mt-56 text-xl font-light align-middle">
                 Select a note, or create a new one.
               </div>
-              {/* <button onClick={() => navigate("/skills")}>Visit Skills</button> */}
-              {/* <Greet person={{name:"John", age:20, likes:"Chicken"}} /> */}
-              {/* <Button info={{buttonCount: 0, buttonTitle: "Note0", buttonDate:"2004/01/01", buttonContent:"Hello WOrld"}}/> */}
             </div>
           </div>
         </div>
