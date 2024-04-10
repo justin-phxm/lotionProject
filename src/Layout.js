@@ -22,14 +22,14 @@ export default function Layout() {
   }, [notes]);
 
   function handleDeleteNote() {
-    const selectedNote = notes.find((note) => note.id === selectedNote);
+    const selectedNote = notes.find((note) => note.id === selectedNoteID);
     if (selectedNote === undefined) return;
     const answer = window.confirm(
       `Are you sure you want to delete note ${selectedNote.title}?`
     );
     if (answer) {
       const newNotes = notes.filter((note) => {
-        return note.id !== selectedNote;
+        return note.id !== selectedNoteID;
       });
       setNotes(newNotes);
       setShowEditor(false);
