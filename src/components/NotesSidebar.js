@@ -1,10 +1,9 @@
 import NotesList from "../NotesList";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import { formatDate } from "../lib/utils";
+import { formattedDate } from "../lib/utils";
 export default function NotesSidebar(props) {
-  const { notes, setNotes, setSelect, setShowEditor, formattedDate } =
-    props.props;
+  const { notes, setNotes, setSelect, setShowEditor } = props.props;
   const navigate = useNavigate();
   const handleNewNote = () => {
     setShowEditor(true);
@@ -16,7 +15,7 @@ export default function NotesSidebar(props) {
         {
           id: genID,
           title: "Untitled",
-          date: formattedDate(formatDate()),
+          date: new Date().toISOString().slice(0, 10),
           content: "",
         },
       ];

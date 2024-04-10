@@ -1,4 +1,3 @@
-import { formatDate } from "./lib/utils";
 import { useNavigate } from "react-router-dom";
 import React, { useState, useRef, useEffect } from "react";
 import "react-quill/dist/quill.snow.css";
@@ -55,7 +54,7 @@ export default function Layout() {
     let theTitle = noteTitleRef.current.value;
     let theDate = noteTimeRef.current.value;
     let quillContent = quillRef.current.value;
-    if (theDate === "") theDate = formatDate();
+    if (theDate === "") theDate = new Date().toISOString().slice(0, 10);
     note.title = theTitle;
     note.date = theDate;
     note.content = quillContent;
@@ -86,7 +85,6 @@ export default function Layout() {
     const editButton = document.getElementById("editButton");
     const saveButton = document.getElementById("saveButton");
 
-    //show quill editor
     console.log(theContentRef.current.innerHTML);
     const quill = document.getElementById("quill");
     quill.setAttribute("class", "visible");
@@ -94,32 +92,14 @@ export default function Layout() {
     const contentDiv = document.getElementById("theContent");
     contentDiv.setAttribute("class", "hidden");
 
-    // Show Save Button
     saveButton.setAttribute(
       "class",
       "visible hover:bg-slate-500 h-full p-[3vh]"
     );
 
-    // Hide Edit Button
     editButton.setAttribute("class", "hidden");
     navigate(`/notes/${id}`);
   }
-
-  const options = {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-  };
-  function formattedDate(when) {
-    when = new Date(when);
-    if (when === "Invalid Date") {
-      console.log("Invalid Date");
-      return "Invalid Date";
-    } else return when.toLocaleString("en-US", options);
-  }
-
   function handleSaveClick() {
     saveNote(selected);
   }
@@ -142,7 +122,6 @@ export default function Layout() {
               notes,
               setNotes,
               setSelect: setSelected,
-              formattedDate,
               noteInfoRef,
               noteTitleRef,
               noteTimeRef,
