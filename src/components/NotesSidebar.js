@@ -15,7 +15,7 @@ export default function NotesSidebar(props) {
         {
           id: genID,
           title: "Untitled",
-          date: new Date().toISOString().slice(0, 10),
+          date: new Date().toISOString().slice(0, 16),
           content: "",
         },
       ];

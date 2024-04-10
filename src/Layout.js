@@ -9,7 +9,7 @@ export default function Layout() {
   const LOCAL_STORAGE_KEY = "notesApp.notes";
   const storedNotes = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
   const [notes, setNotes] = useState(storedNotes || []);
-  const [selected, setSelected] = useState();
+  const [selectedNoteID, setSelectedNoteID] = useState();
   const [showEditor, setShowEditor] = useState(false);
   const noteTitleRef = useRef();
   const noteInfoRef = useRef();
@@ -22,14 +22,14 @@ export default function Layout() {
   }, [notes]);
 
   function handleDeleteNote() {
-    const selectedNote = notes.find((note) => note.id === selected);
+    const selectedNote = notes.find((note) => note.id === selectedNote);
     if (selectedNote === undefined) return;
     const answer = window.confirm(
       `Are you sure you want to delete note ${selectedNote.title}?`
     );
     if (answer) {
       const newNotes = notes.filter((note) => {
-        return note.id !== selected;
+        return note.id !== selectedNote;
       });
       setNotes(newNotes);
       setShowEditor(false);
@@ -54,7 +54,6 @@ export default function Layout() {
     let theTitle = noteTitleRef.current.value;
     let theDate = noteTimeRef.current.value;
     let quillContent = quillRef.current.value;
-    if (theDate === "") theDate = new Date().toISOString().slice(0, 10);
     note.title = theTitle;
     note.date = theDate;
     note.content = quillContent;
@@ -101,16 +100,16 @@ export default function Layout() {
     navigate(`/notes/${id}`);
   }
   function handleSaveClick() {
-    saveNote(selected);
+    saveNote(selectedNoteID);
   }
   function handleEditClick() {
-    editNote(selected);
+    editNote(selectedNoteID);
   }
   const editorData = {
     showEditor,
     setShowEditor,
-    selected,
-    setSelect: setSelected,
+    selected: selectedNoteID,
+    setSelect: setSelectedNoteID,
   };
   return (
     <div className="flex flex-col min-h-screen h-screen">
@@ -121,7 +120,7 @@ export default function Layout() {
             props={{
               notes,
               setNotes,
-              setSelect: setSelected,
+              setSelect: setSelectedNoteID,
               noteInfoRef,
               noteTitleRef,
               noteTimeRef,
@@ -131,7 +130,7 @@ export default function Layout() {
           />
           <NoteBar
             props={{
-              state: notes,
+              notes,
               noteTitleRef,
               noteInfoRef,
               noteTimeRef,
@@ -141,6 +140,7 @@ export default function Layout() {
               handleEditClick,
               handleDeleteNote,
               showEditor,
+              selectedNote: selectedNoteID,
             }}
           />
         </EditorContext.Provider>

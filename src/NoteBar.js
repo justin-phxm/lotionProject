@@ -3,7 +3,7 @@ import ReactQuill from "react-quill";
 
 export default function NoteBar(props) {
   const {
-    state,
+    notes,
     noteTitleRef,
     noteInfoRef,
     noteTimeRef,
@@ -13,7 +13,10 @@ export default function NoteBar(props) {
     handleEditClick,
     handleDeleteNote,
     showEditor,
+    selectedNoteID,
   } = props.props;
+
+  const selectedNote = notes.find((note) => note.id === selectedNoteID);
   return (
     <div id="noteBar" className="col-span-5">
       <div className={showEditor ? " h-full flex flex-col" : "hidden"}>
@@ -51,9 +54,9 @@ export default function NoteBar(props) {
             <input
               ref={noteTimeRef}
               id="noteTime"
-              type="date"
+              type="datetime-local"
               className="bg-inherit"
-              defaultValue={new Date().toISOString().slice(0, 10)}
+              defaultValue={selectedNote?.date}
             />
           </div>
         </div>
@@ -61,7 +64,7 @@ export default function NoteBar(props) {
           <ReactQuill
             id="quill"
             ref={quillRef}
-            value={state.content}
+            value={notes.content}
             placeholder="Your Note Here"
             className="h-full"
           />
