@@ -37,17 +37,6 @@ export default function Layout() {
     }
   }
 
-  function hideNotes() {
-    let userNotes = document.getElementById("userNotes");
-    let noteBar = document.getElementById("noteBar");
-    if (userNotes.style.display === "none") {
-      userNotes.style.display = "block";
-      noteBar.setAttribute("class", "col-span-5");
-    } else {
-      userNotes.style.display = "none";
-      noteBar.setAttribute("class", "col-span-6");
-    }
-  }
   function saveNote(id) {
     const newNotes = [...notes];
     const note = newNotes.find((note) => note.id === id);
@@ -66,7 +55,6 @@ export default function Layout() {
     quill.setAttribute("class", "hidden");
 
     // // Show Content
-    console.log("Pass");
     const contentDiv = document.getElementById("theContent");
     contentDiv.innerHTML = quillContent;
     contentDiv.setAttribute("class", "visible");
@@ -111,7 +99,7 @@ export default function Layout() {
   };
   return (
     <div className="flex flex-col min-h-screen h-screen">
-      <Header hideNotes={hideNotes} />
+      <Header />
       <div id="hero" className=" grid grid-cols-6 gap-1 h-full ">
         <EditorContext.Provider value={editorData}>
           <NotesSidebar
