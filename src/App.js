@@ -4,15 +4,15 @@ import Notes from "./Notes.js";
 import NotesList from "./NotesList.js";
 
 export default function App() {
-  return(
-  <BrowserRouter>
-    <Routes>
-      <Route element={<Layout />}>
-        <Route path="/" element = {<NotesList />} />
-        <Route path="/notes/:notesID" element={<Notes />} />
-        <Route path="/notes/:notesID/edit" element={<Notes />} />
-      </Route>
-    </Routes>
-  </BrowserRouter>
-  )
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<NotesList />} />
+          <Route path="/notes/:notesID" element={<Notes />} />
+          <Route path="/notes/:notesID/edit" element={<Notes />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
