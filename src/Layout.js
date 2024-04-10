@@ -10,7 +10,7 @@ export default function Layout() {
   const LOCAL_STORAGE_KEY = "notesApp.notes";
   const storedNotes = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
   const [notes, setNotes] = useState(storedNotes || []);
-  const [selected, setSelect] = useState();
+  const [selected, setSelected] = useState();
   const [showEditor, setShowEditor] = useState(false);
   const noteTitleRef = useRef();
   const noContentRef = useRef();
@@ -122,7 +122,6 @@ export default function Layout() {
   }
 
   function handleSaveClick() {
-    // console.log(selected)
     saveNote(selected);
   }
   function handleEditClick() {
@@ -131,6 +130,8 @@ export default function Layout() {
   const editorData = {
     showEditor,
     setShowEditor,
+    selected,
+    setSelect: setSelected,
   };
   return (
     <div className="flex flex-col min-h-screen h-screen">
@@ -139,9 +140,9 @@ export default function Layout() {
         <EditorContext.Provider value={editorData}>
           <NotesSidebar
             props={{
-              state: notes,
-              setState: setNotes,
-              setSelect,
+              notes,
+              setNotes,
+              setSelect: setSelected,
               formattedDate,
               noteInfoRef,
               noteTitleRef,

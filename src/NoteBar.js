@@ -15,10 +15,8 @@ export default function NoteBar(props) {
     showEditor,
   } = props.props;
   return (
-    <div className="col-span-5">
-      <div
-        id="noteBar"
-        className={showEditor ? " h-full flex flex-col" : "hidden"}>
+    <div id="noteBar" className="col-span-5">
+      <div className={showEditor ? " h-full flex flex-col" : "hidden"}>
         <div ref={noteInfoRef} id="noteInfo" className={" bg-slate-300"}>
           <div id="Title" className="text-3xl">
             <input

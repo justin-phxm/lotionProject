@@ -3,20 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { formatDate } from "../lib/utils";
 export default function NotesSidebar(props) {
-  const {
-    state,
-    setState,
-    noteTimeRef,
-    setSelect,
-    setShowEditor,
-    formattedDate,
-  } = props.props;
+  const { notes, setNotes, setSelect, setShowEditor, formattedDate } =
+    props.props;
   const navigate = useNavigate();
   const handleNewNote = () => {
     setShowEditor(true);
-    let genID = uuidv4();
+    const genID = uuidv4();
     setSelect(genID);
-    setState((prevState) => {
+    setNotes((prevState) => {
       return [
         ...prevState,
         {
@@ -27,7 +21,6 @@ export default function NotesSidebar(props) {
         },
       ];
     });
-    noteTimeRef.current.value = formatDate();
     navigate(`/notes/${genID}`);
   };
   return (
@@ -43,7 +36,7 @@ export default function NotesSidebar(props) {
       </div>
       <div id="notesContainer">
         <NotesList
-          notes={state}
+          notes={notes}
           setSelect={setSelect}
           formattedDate={formattedDate}
         />
