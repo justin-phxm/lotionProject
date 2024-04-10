@@ -8,7 +8,8 @@ import NotesSidebar from "./components/NotesSidebar";
 import EditorContext from "./EditorContext";
 export default function Layout() {
   const LOCAL_STORAGE_KEY = "notesApp.notes";
-  const [state, setState] = useState([]);
+  const storedNotes = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+  const [notes, setNotes] = useState(storedNotes || []);
   const [selected, setSelect] = useState();
   const [showEditor, setShowEditor] = useState(false);
   const noteTitleRef = useRef();
@@ -19,31 +20,20 @@ export default function Layout() {
   const quillRef = useRef();
   const navigate = useNavigate();
   useEffect(() => {
-    const storedNotes = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-    if (storedNotes) setState((prevNotes) => [...prevNotes, ...storedNotes]);
-    if (storedNotes === null) return;
-    if (storedNotes.length > 0) {
-    }
-    if (storedNotes.length > 0) {
-      const noteInfo = noteInfoRef.current;
-      noteInfo.setAttribute("class", "bg-red-500 h-[9vh]");
-    }
-  }, []);
-  useEffect(() => {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(state));
-  }, [state]);
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(notes));
+  }, [notes]);
 
   function handleDeleteNote() {
-    const selectedNote = state.find((note) => note.id === selected);
+    const selectedNote = notes.find((note) => note.id === selected);
     if (selectedNote === undefined) return;
     const answer = window.confirm(
       `Are you sure you want to delete note ${selectedNote.title}?`
     );
     if (answer) {
-      const newNotes = state.filter((note) => {
+      const newNotes = notes.filter((note) => {
         return note.id !== selected;
       });
-      setState(newNotes);
+      setNotes(newNotes);
       setShowEditor(false);
       navigate("/");
     }
@@ -61,38 +51,20 @@ export default function Layout() {
     }
   }
   function saveNote(id) {
-    const newNotes = [...state];
-    // console.log(newNotes)
+    const newNotes = [...notes];
     const note = newNotes.find((note) => note.id === id);
-    // console.log(note)
-
     let theTitle = noteTitleRef.current.value;
     let theDate = noteTimeRef.current.value;
     let quillContent = quillRef.current.value;
     if (theDate === "") theDate = formatDate();
-    // theDate = formattedDate(theDate)
     note.title = theTitle;
     note.date = theDate;
     note.content = quillContent;
-    setState(newNotes);
+    setNotes(newNotes);
 
-    // const theContentElement = contentElementRef.current
-    // theContentElement.innerHTML = quillContent
-    // // Update note Button content
-    // let saveString = noteData.slice(0, 25)
-    // if(noteData.length > 25){
-    //   saveString += "..."
-    // }
-    // noteButton.childNodes[2].innerHTML = saveString
-
-    // //Change Save Button to Edit
     const saveButton = document.getElementById("saveButton");
     const editButton = document.getElementById("editButton");
 
-    // // DO NOT USE replaceWith() AS IT CAUSES ERROR IN UPDATING THE BUTTON
-    // // saveButton.replaceWith(editButton)
-
-    // //hide quill editor
     const quill = document.getElementById("quill");
     quill.setAttribute("class", "hidden");
 
@@ -102,11 +74,6 @@ export default function Layout() {
     contentDiv.innerHTML = quillContent;
     contentDiv.setAttribute("class", "visible");
 
-    // theContent
-    // theContentRef.current = "Hello WOrld"
-    // theContentRef.current.setAttribute("class", "visible")
-
-    // // Hide Save Button
     saveButton.setAttribute("class", "hidden");
 
     // // Show Edit Button
@@ -172,8 +139,8 @@ export default function Layout() {
         <EditorContext.Provider value={editorData}>
           <NotesSidebar
             props={{
-              state,
-              setState,
+              state: notes,
+              setState: setNotes,
               setSelect,
               formattedDate,
               noteInfoRef,
@@ -185,7 +152,7 @@ export default function Layout() {
           />
           <NoteBar
             props={{
-              state,
+              state: notes,
               noteTitleRef,
               noteInfoRef,
               noteTimeRef,
