@@ -51,8 +51,9 @@ export default function NoteBar(props) {
             <input
               ref={noteTimeRef}
               id="noteTime"
-              type="datetime-local"
+              type="date"
               className="bg-inherit"
+              defaultValue={new Date().toISOString().slice(0, 10)}
             />
           </div>
         </div>

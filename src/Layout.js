@@ -13,7 +13,6 @@ export default function Layout() {
   const [selected, setSelected] = useState();
   const [showEditor, setShowEditor] = useState(false);
   const noteTitleRef = useRef();
-  const noContentRef = useRef();
   const noteInfoRef = useRef();
   const noteTimeRef = useRef();
   const theContentRef = useRef();
@@ -158,13 +157,11 @@ export default function Layout() {
               noteInfoRef,
               noteTimeRef,
               quillRef,
-              noContentRef,
               theContentRef,
               handleSaveClick,
               handleEditClick,
               handleDeleteNote,
               showEditor,
-              setShowEditor,
             }}
           />
         </EditorContext.Provider>
