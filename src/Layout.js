@@ -1,16 +1,17 @@
+import { formatDate } from "./lib/utils";
 import { useNavigate } from "react-router-dom";
 import React, { useState, useRef, useEffect } from "react";
 import "react-quill/dist/quill.snow.css";
-import { v4 as uuidv4 } from "uuid";
 import Header from "./components/Header";
 import NoteBar from "./NoteBar";
 import NotesSidebar from "./components/NotesSidebar";
+import EditorContext from "./EditorContext";
 export default function Layout() {
   const LOCAL_STORAGE_KEY = "notesApp.notes";
   const [state, setState] = useState([]);
   const [selected, setSelect] = useState();
+  const [showEditor, setShowEditor] = useState(false);
   const noteTitleRef = useRef();
-  const emptyRef = useRef();
   const noContentRef = useRef();
   const noteInfoRef = useRef();
   const noteTimeRef = useRef();
@@ -22,22 +23,17 @@ export default function Layout() {
     if (storedNotes) setState((prevNotes) => [...prevNotes, ...storedNotes]);
     if (storedNotes === null) return;
     if (storedNotes.length > 0) {
-      const emptyCheck = emptyRef.current;
-      emptyCheck.remove();
     }
     if (storedNotes.length > 0) {
       const noteInfo = noteInfoRef.current;
       noteInfo.setAttribute("class", "bg-red-500 h-[9vh]");
     }
   }, []);
-
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(state));
-    console.log(state.id);
   }, [state]);
 
   function handleDeleteNote() {
-    console.log("deleteNote run");
     const selectedNote = state.find((note) => note.id === selected);
     if (selectedNote === undefined) return;
     const answer = window.confirm(
@@ -48,36 +44,9 @@ export default function Layout() {
         return note.id !== selected;
       });
       setState(newNotes);
-      let quillEditor = document.getElementById("quill");
-      quillEditor.setAttribute("class", "hidden");
+      setShowEditor(false);
+      navigate("/");
     }
-  }
-  function handleNewNote() {
-    const emptyCheck = emptyRef.current;
-    emptyCheck.remove();
-    const noContentCheck = noContentRef.current;
-    noContentCheck.remove();
-
-    const noteInfo = noteInfoRef.current;
-    noteInfo.setAttribute("class", "bg-red-500 h-[9vh]");
-
-    let genID = uuidv4();
-    setSelect(genID);
-    setState((prevState) => {
-      return [
-        ...prevState,
-        {
-          id: genID,
-          title: "Untitled",
-          date: formattedDate(formatDate()),
-          content: "",
-        },
-      ];
-    });
-    noteTitleRef.current.value = null;
-    document.getElementById("quill").setAttribute("class", "visible");
-    noteTimeRef.current.value = formatDate();
-    navigate(`/notes/${genID}`);
   }
 
   function hideNotes() {
@@ -177,12 +146,6 @@ export default function Layout() {
     hour: "numeric",
     minute: "numeric",
   };
-  function formatDate() {
-    // const date = new Date().toLocaleString("en-US", options)
-    const date = new Date().toISOString().slice(0, 10) + "T10:15";
-    return date;
-  }
-
   function formattedDate(when) {
     when = new Date(when);
     if (when === "Invalid Date") {
@@ -198,34 +161,46 @@ export default function Layout() {
   function handleEditClick() {
     editNote(selected);
   }
+  const editorData = {
+    showEditor,
+    setShowEditor,
+  };
   return (
-    <>
+    <div className="flex flex-col min-h-screen h-screen">
       <Header hideNotes={hideNotes} />
-      <div id="hero" className=" grid grid-cols-6 gap-1 ">
-        <NotesSidebar
-          props={{
-            state,
-            setSelect,
-            formattedDate,
-            handleNewNote,
-            emptyRef,
-          }}
-        />
-        <NoteBar
-          props={{
-            state,
-            noteTitleRef,
-            noteInfoRef,
-            noteTimeRef,
-            quillRef,
-            noContentRef,
-            theContentRef,
-            handleSaveClick,
-            handleEditClick,
-            handleDeleteNote,
-          }}
-        />
+      <div id="hero" className=" grid grid-cols-6 gap-1 h-full ">
+        <EditorContext.Provider value={editorData}>
+          <NotesSidebar
+            props={{
+              state,
+              setState,
+              setSelect,
+              formattedDate,
+              noteInfoRef,
+              noteTitleRef,
+              noteTimeRef,
+              showEditor,
+              setShowEditor,
+            }}
+          />
+          <NoteBar
+            props={{
+              state,
+              noteTitleRef,
+              noteInfoRef,
+              noteTimeRef,
+              quillRef,
+              noContentRef,
+              theContentRef,
+              handleSaveClick,
+              handleEditClick,
+              handleDeleteNote,
+              showEditor,
+              setShowEditor,
+            }}
+          />
+        </EditorContext.Provider>
       </div>
-    </>
+    </div>
   );
 }

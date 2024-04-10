@@ -1,10 +1,38 @@
 import NotesList from "../NotesList";
+import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
+import { formatDate } from "../lib/utils";
 export default function NotesSidebar(props) {
-  const { state, setSelect, formattedDate, handleNewNote, emptyRef } =
-    props.props;
+  const {
+    state,
+    setState,
+    noteTimeRef,
+    setSelect,
+    setShowEditor,
+    formattedDate,
+  } = props.props;
+  const navigate = useNavigate();
+  const handleNewNote = () => {
+    setShowEditor(true);
+    let genID = uuidv4();
+    setSelect(genID);
+    setState((prevState) => {
+      return [
+        ...prevState,
+        {
+          id: genID,
+          title: "Untitled",
+          date: formattedDate(formatDate()),
+          content: "",
+        },
+      ];
+    });
+    noteTimeRef.current.value = formatDate();
+    navigate(`/notes/${genID}`);
+  };
   return (
-    <div id="userNotes" className="col-span-1  bg-slate-200 h-[91vh]">
-      <div id="addNotesBar" className="bg-slate-300 font-bold text-xl">
+    <div id="userNotes" className="col-span-1 bg-slate-200">
+      <div id="addNotesBar" className="bg-slate-300 border-b font-bold text-xl">
         Notes
         <button
           id="newNote"
@@ -13,11 +41,7 @@ export default function NotesSidebar(props) {
           +
         </button>
       </div>
-      <div className="h-px bg-slate-100" />
       <div id="notesContainer">
-        <span ref={emptyRef} id="empty" className="font-light">
-          No Note yet
-        </span>
         <NotesList
           notes={state}
           setSelect={setSelect}
