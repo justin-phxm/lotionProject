@@ -8,17 +8,17 @@ export default function NoteBar(props) {
     noteInfoRef,
     noteTimeRef,
     quillRef,
-    noContentRef,
     theContentRef,
     handleSaveClick,
     handleEditClick,
     handleDeleteNote,
     showEditor,
-    setShowEditor,
   } = props.props;
   return (
     <div className="col-span-5">
-      <div id="noteBar" className={showEditor ? "" : "hidden"}>
+      <div
+        id="noteBar"
+        className={showEditor ? " h-full flex flex-col" : "hidden"}>
         <div ref={noteInfoRef} id="noteInfo" className={" bg-slate-300"}>
           <div id="Title" className="text-3xl">
             <input
@@ -58,20 +58,18 @@ export default function NoteBar(props) {
             />
           </div>
         </div>
-        <div id="content" className="h-[65vh]">
-          <div>
-            <ReactQuill
-              id="quill"
-              ref={quillRef}
-              value={state.content}
-              placeholder="Your Note Here"
-            />
-            <div ref={theContentRef} id="theContent" className="hidden" />
-          </div>
+        <div id="content" className=" h-4/5">
+          <ReactQuill
+            id="quill"
+            ref={quillRef}
+            value={state.content}
+            placeholder="Your Note Here"
+            className="h-full"
+          />
+          <div ref={theContentRef} id="theContent" className="hidden" />
         </div>
       </div>
       <div
-        ref={noContentRef}
         id="noContent"
         className={
           showEditor
