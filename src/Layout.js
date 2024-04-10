@@ -102,9 +102,7 @@ export default function Layout() {
   function handleSaveClick() {
     saveNote(selectedNoteID);
   }
-  function handleEditClick() {
-    editNote(selectedNoteID);
-  }
+
   const editorData = {
     showEditor,
     setShowEditor,
@@ -137,8 +135,8 @@ export default function Layout() {
               quillRef,
               theContentRef,
               handleSaveClick,
-              handleEditClick,
               handleDeleteNote,
+              editNote,
               showEditor,
               selectedNote: selectedNoteID,
             }}

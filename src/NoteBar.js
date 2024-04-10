@@ -10,10 +10,11 @@ export default function NoteBar(props) {
     quillRef,
     theContentRef,
     handleSaveClick,
-    handleEditClick,
+    editNote,
     handleDeleteNote,
     showEditor,
     selectedNoteID,
+    saveNote,
   } = props.props;
 
   const selectedNote = notes.find((note) => note.id === selectedNoteID);
@@ -39,7 +40,7 @@ export default function NoteBar(props) {
               <button
                 id="editButton"
                 className="hover:bg-slate-500 h-full p-4"
-                onClick={handleEditClick}>
+                onClick={() => editNote(selectedNoteID)}>
                 Edit
               </button>
               <button
