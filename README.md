@@ -2,6 +2,8 @@
 
 This project is a clone of the popular productivity application Notion. It is built using React and npm, aiming to replicate some of the core functionalities and user interface elements of Notion.
 
+This was my first React project I made in my Full Stack Web Dev course in second year of uni. I revamped it, taking care of many of the bugs and added some new features.
+
 ## Features
 
 - **Rich Text Editing:** Users can create and edit documents with various formatting options such as bold, italics, headings, lists, and more.
