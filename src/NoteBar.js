@@ -31,19 +31,19 @@ export default function NoteBar(props) {
     <div id="noteBar" className="col-span-5">
       <div className={showEditor ? " h-full flex flex-col" : "hidden"}>
         <div ref={noteInfoRef} id="noteInfo" className={" bg-slate-300"}>
-          <div id="Title" className="text-3xl">
+          <div id="Title" className="text-3xl flex flex-row justify-between">
             <input
               ref={noteTitleRef}
               id="noteTitle"
               type="text"
               placeholder="Untitled"
-              className="border-2 placeholder:text-black outline-blue-500/0 bg-inherit border-blue-500/0 focus:outline-none"
+              className="border-2 placeholder:text-black outline-blue-500/0 bg-inherit border-blue-500/0 focus:outline-none w-full h-12"
             />
-            <div id="noteButtons" className="text-xl float-right">
+            <div id="noteButtons" className="text-xl flex gap-4 flex-row px-4">
               <button
                 id="saveButton"
                 className={
-                  "hover:bg-slate-500 h-full p-4" + (editMode ? "" : " hidden")
+                  "hover:bg-slate-500 h-full" + (editMode ? "" : " hidden")
                 }
                 onClick={handleSaveButton}>
                 Save
@@ -51,14 +51,14 @@ export default function NoteBar(props) {
               <button
                 id="editButton"
                 className={
-                  "hover:bg-slate-500 h-full p-4" + (editMode ? " hidden" : "")
+                  "hover:bg-slate-500 h-full" + (editMode ? " hidden" : "")
                 }
                 onClick={handleEditButton}>
                 Edit
               </button>
               <button
                 id="deleteButton"
-                className="hover:bg-slate-500 p-4"
+                className="hover:bg-slate-500"
                 onClick={handleDeleteNote}>
                 Delete
               </button>
@@ -74,7 +74,7 @@ export default function NoteBar(props) {
             />
           </div>
         </div>
-        <div id="content" className=" h-4/5">
+        <div id="content" className=" h-5/6">
           <ReactQuill
             id="quill"
             ref={quillRef}
@@ -82,7 +82,10 @@ export default function NoteBar(props) {
             placeholder="Your Note Here"
             className={"h-full" + (editMode ? "" : " hidden")}
           />
-          <div id="theContent" className={editMode ? "hidden" : ""} />
+          <div
+            id="theContent"
+            className={editMode ? "hidden" : " overflow-x-hidden text-ellipsis"}
+          />
         </div>
       </div>
       <div
