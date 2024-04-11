@@ -1,4 +1,14 @@
-export function formatDate() {
-  const date = new Date().toISOString().slice(0, 10) + "T10:15";
-  return date;
+const options = {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+  hour: "numeric",
+  minute: "numeric",
+};
+export function formattedDate(when) {
+  when = new Date(when);
+  if (when === "Invalid Date") {
+    console.log("Invalid Date");
+    return "Invalid Date";
+  } else return when.toLocaleString("en-US", options);
 }

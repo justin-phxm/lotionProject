@@ -1,47 +1,65 @@
 import React from "react";
 import ReactQuill from "react-quill";
-
+import EditorContext from "./EditorContext";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
 export default function NoteBar(props) {
   const {
-    state,
+    notes,
     noteTitleRef,
     noteInfoRef,
     noteTimeRef,
     quillRef,
-    theContentRef,
-    handleSaveClick,
-    handleEditClick,
     handleDeleteNote,
     showEditor,
+    selectedNoteID,
+    saveNote,
   } = props.props;
+  const { editMode, setEditMode } = useContext(EditorContext);
+  const selectedNote = notes.find((note) => note.id === selectedNoteID);
+  const navigate = useNavigate();
+  const handleEditButton = () => {
+    setEditMode(true);
+    navigate(`/notes/${selectedNoteID}`);
+  };
+  const handleSaveButton = () => {
+    setEditMode(false);
+    saveNote(selectedNoteID);
+  };
+
   return (
     <div id="noteBar" className="col-span-5">
       <div className={showEditor ? " h-full flex flex-col" : "hidden"}>
         <div ref={noteInfoRef} id="noteInfo" className={" bg-slate-300"}>
-          <div id="Title" className="text-3xl">
+          <div id="Title" className="text-3xl flex flex-row justify-between">
             <input
               ref={noteTitleRef}
               id="noteTitle"
               type="text"
               placeholder="Untitled"
-              className="border-2 placeholder:text-black outline-blue-500/0 bg-inherit border-blue-500/0 focus:outline-none"
+              className="border-2 placeholder:text-black outline-blue-500/0 bg-inherit border-blue-500/0 focus:outline-none w-full h-12"
+              disabled={!editMode}
             />
-            <div id="noteButtons" className="text-xl float-right">
+            <div id="noteButtons" className="text-xl flex gap-4 flex-row px-4">
               <button
                 id="saveButton"
-                className="hover:bg-slate-500 h-full p-4"
-                onClick={handleSaveClick}>
+                className={
+                  "hover:bg-slate-500 h-full" + (editMode ? "" : " hidden")
+                }
+                onClick={handleSaveButton}>
                 Save
               </button>
               <button
                 id="editButton"
-                className="hover:bg-slate-500 h-full p-4"
-                onClick={handleEditClick}>
+                className={
+                  "hover:bg-slate-500 h-full" + (editMode ? " hidden" : "")
+                }
+                onClick={handleEditButton}>
                 Edit
               </button>
               <button
                 id="deleteButton"
-                className="hover:bg-slate-500 p-4"
+                className="hover:bg-slate-500"
                 onClick={handleDeleteNote}>
                 Delete
               </button>
@@ -51,21 +69,25 @@ export default function NoteBar(props) {
             <input
               ref={noteTimeRef}
               id="noteTime"
-              type="date"
+              type="datetime-local"
               className="bg-inherit"
-              defaultValue={new Date().toISOString().slice(0, 10)}
+              defaultValue={selectedNote?.date}
+              disabled={!editMode}
             />
           </div>
         </div>
-        <div id="content" className=" h-4/5">
+        <div id="content" className=" h-5/6">
           <ReactQuill
             id="quill"
             ref={quillRef}
-            value={state.content}
+            value={selectedNote?.content}
             placeholder="Your Note Here"
-            className="h-full"
+            className={"h-full" + (editMode ? "" : " hidden")}
           />
-          <div ref={theContentRef} id="theContent" className="hidden" />
+          <div
+            id="theContent"
+            className={editMode ? "hidden" : " overflow-x-hidden text-ellipsis"}
+          />
         </div>
       </div>
       <div
