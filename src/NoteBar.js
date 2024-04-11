@@ -29,41 +29,45 @@ export default function NoteBar(props) {
 
   return (
     <div id="noteBar" className="col-span-5">
-      <div className={showEditor ? " h-full flex flex-col" : "hidden"}>
+      <div className={showEditor ? " flex h-full flex-col" : "hidden"}>
         <div
           ref={noteInfoRef}
           id="noteInfo"
-          className={" bg-slate-300 dark:bg-slate-900"}>
-          <div id="Title" className="text-3xl flex flex-row justify-between">
+          className={" bg-slate-300 dark:bg-slate-900"}
+        >
+          <div id="Title" className="flex flex-row justify-between text-3xl">
             <input
               ref={noteTitleRef}
               id="noteTitle"
               type="text"
               placeholder="Untitled"
-              className="border-2 placeholder:text-black outline-blue-500/0 bg-inherit border-blue-500/0 focus:outline-none w-full h-12"
+              className="h-12 w-full border-2 border-blue-500/0 bg-inherit outline-blue-500/0 placeholder:text-black focus:outline-none"
               disabled={!editMode}
             />
-            <div id="noteButtons" className="text-xl flex gap-4 flex-row px-4">
+            <div id="noteButtons" className="flex flex-row gap-4 px-4 text-xl">
               <button
                 id="saveButton"
                 className={
-                  "hover:text-slate-500 h-full" + (editMode ? "" : " hidden")
+                  "h-full hover:text-slate-500" + (editMode ? "" : " hidden")
                 }
-                onClick={handleSaveButton}>
+                onClick={handleSaveButton}
+              >
                 Save
               </button>
               <button
                 id="editButton"
                 className={
-                  "hover:text-slate-500 h-full" + (editMode ? " hidden" : "")
+                  "h-full hover:text-slate-500" + (editMode ? " hidden" : "")
                 }
-                onClick={handleEditButton}>
+                onClick={handleEditButton}
+              >
                 Edit
               </button>
               <button
                 id="deleteButton"
                 className="hover:text-slate-500"
-                onClick={handleDeleteNote}>
+                onClick={handleDeleteNote}
+              >
                 Delete
               </button>
             </div>
@@ -98,8 +102,9 @@ export default function NoteBar(props) {
         className={
           showEditor
             ? "hidden"
-            : " text-center mt-56 text-xl font-light align-middle"
-        }>
+            : " mt-56 text-center align-middle text-xl font-light"
+        }
+      >
         Select a note, or create a new one.
       </div>
     </div>

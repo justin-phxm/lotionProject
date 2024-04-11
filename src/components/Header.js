@@ -17,18 +17,20 @@ export default function Header() {
   };
   const { darkMode, setDarkMode } = useContext(EditorContext);
   return (
-    <header className="flex relative flex-col text-center justify-center border-b dark:bg-slate-800 dark:text-white ">
+    <header className="relative flex flex-col justify-center border-b text-center dark:bg-slate-800 dark:text-white ">
       <div className="text-3xl font-bold">
         <button
           className="absolute left-2 top-0"
           id="menuButton"
-          onClick={hideNotes}>
+          onClick={hideNotes}
+        >
           &#9776;
         </button>{" "}
         <button
-          className="absolute text-xl right-4 dark:bg-slate-600 bg-slate-300 p-1 rounded-full top-2"
+          className="absolute right-4 top-2 rounded-full bg-slate-300 p-1 text-xl dark:bg-slate-600"
           id="menuButton"
-          onClick={toggleDarkMode}>
+          onClick={toggleDarkMode}
+        >
           {darkMode ? "🌞" : "🌙"}
         </button>
         <a href="/">Lotion</a>

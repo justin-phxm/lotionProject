@@ -37,19 +37,21 @@ export default function NotesSidebar(props) {
     <div id="userNotes" className="col-span-1 bg-slate-200 dark:bg-slate-900">
       <div
         id="addNotesBar"
-        className="bg-slate-300 dark:bg-slate-700 border-b flex flex-row justify-between px-4 font-bold text-xl">
+        className="flex flex-row justify-between border-b bg-slate-300 px-4 text-xl font-bold dark:bg-slate-700"
+      >
         <div>Notes</div>
         <button
           id="newNote"
           className="text-xl hover:text-slate-500"
-          onClick={handleNewNote}>
+          onClick={handleNewNote}
+        >
           +
         </button>
       </div>
-      <div className="p-4 w-full">
+      <div className="w-full p-4">
         <input
           type="text"
-          className="bg-inherit w-full p-2 border-b-2 border-slate-300"
+          className="w-full border-b-2 border-slate-300 bg-inherit p-2"
           placeholder="Search for notes..."
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}

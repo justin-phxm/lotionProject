@@ -27,7 +27,7 @@ export default function Layout() {
     const selectedNote = notes.find((note) => note.id === selectedNoteID);
     if (selectedNote === undefined) return;
     const answer = window.confirm(
-      `Are you sure you want to delete note ${selectedNote.title}?`
+      `Are you sure you want to delete note ${selectedNote.title}?`,
     );
     if (answer) {
       const newNotes = notes.filter((note) => {
@@ -68,13 +68,15 @@ export default function Layout() {
     <EditorContext.Provider value={editorData}>
       <div
         className={
-          "flex flex-col min-h-screen h-screen dark:text-white" +
+          "flex h-screen min-h-screen flex-col dark:text-white" +
           (!darkMode ? " dark" : "")
-        }>
+        }
+      >
         <Header />
         <div
           id="hero"
-          className=" grid grid-cols-6 gap-1 h-full darkbg-green-400 dark:bg-slate-800 dark:text-white ">
+          className=" darkbg-green-400 grid h-full grid-cols-6 gap-1 dark:bg-slate-800 dark:text-white "
+        >
           <NotesSidebar
             props={{
               notes,

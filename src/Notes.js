@@ -22,10 +22,11 @@ export default function Notes({ note, setSelect, formattedDate }) {
       <button
         id={note.id}
         onClick={handleNoteClick}
-        className={`flex shadow-lg text-sm flex-col truncate w-full p-4 h-24 bg-slate-500 dark:bg-slate-900 dark:border-white dark:border-b hover:opacity-90 text-white text-left ${
+        className={`flex h-24 w-full flex-col truncate bg-slate-500 p-4 text-left text-sm text-white shadow-lg hover:opacity-90 dark:border-b dark:border-white dark:bg-slate-900 ${
           selectedNoteID === note.id ? " bg-gray-400 dark:bg-gray-800" : ""
-        }`}>
-        <div className="font-bold text-xl w-full">{note.title}</div>
+        }`}
+      >
+        <div className="w-full text-xl font-bold">{note.title}</div>
         <div className="text-light w-full">{newFormatTime}</div>
         <div
           className="w-full"
