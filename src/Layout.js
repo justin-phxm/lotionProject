@@ -12,6 +12,7 @@ export default function Layout() {
   const [selectedNoteID, setSelectedNoteID] = useState();
   const [showEditor, setShowEditor] = useState(false);
   const [editMode, setEditMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
   const noteTitleRef = useRef();
   const noteInfoRef = useRef();
   const noteTimeRef = useRef();
@@ -60,12 +61,20 @@ export default function Layout() {
     setSelectedNoteID,
     editMode,
     setEditMode,
+    darkMode,
+    setDarkMode,
   };
   return (
-    <div className="flex flex-col min-h-screen h-screen">
-      <Header />
-      <div id="hero" className=" grid grid-cols-6 gap-1 h-full ">
-        <EditorContext.Provider value={editorData}>
+    <EditorContext.Provider value={editorData}>
+      <div
+        className={
+          "flex flex-col min-h-screen h-screen dark:text-white" +
+          (!darkMode ? " dark" : "")
+        }>
+        <Header />
+        <div
+          id="hero"
+          className=" grid grid-cols-6 gap-1 h-full darkbg-green-400 dark:bg-slate-800 dark:text-white ">
           <NotesSidebar
             props={{
               notes,
@@ -92,8 +101,8 @@ export default function Layout() {
               selectedNoteID,
             }}
           />
-        </EditorContext.Provider>
+        </div>
       </div>
-    </div>
+    </EditorContext.Provider>
   );
 }

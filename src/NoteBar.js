@@ -30,7 +30,10 @@ export default function NoteBar(props) {
   return (
     <div id="noteBar" className="col-span-5">
       <div className={showEditor ? " h-full flex flex-col" : "hidden"}>
-        <div ref={noteInfoRef} id="noteInfo" className={" bg-slate-300"}>
+        <div
+          ref={noteInfoRef}
+          id="noteInfo"
+          className={" bg-slate-300 dark:bg-slate-900"}>
           <div id="Title" className="text-3xl flex flex-row justify-between">
             <input
               ref={noteTitleRef}

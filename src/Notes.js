@@ -15,13 +15,16 @@ export default function Notes({ note, setSelect, formattedDate }) {
     navigate(`/notes/${note.id}`);
   }
   let newFormatTime = formattedDate(note.date);
-  const { setShowEditor, setEditMode } = useContext(EditorContext);
+  const { setShowEditor, setEditMode, selectedNoteID } =
+    useContext(EditorContext);
   return (
     <div>
       <button
         id={note.id}
         onClick={handleNoteClick}
-        className="flex shadow-lg text-sm flex-col truncate w-full p-4 h-24 bg-slate-500 hover:bg-slate-600 text-white text-left">
+        className={`flex shadow-lg text-sm flex-col truncate w-full p-4 h-24 bg-slate-500 dark:bg-slate-900 dark:border-white dark:border-b hover:opacity-90 text-white text-left ${
+          selectedNoteID === note.id ? " bg-gray-400 dark:bg-gray-800" : ""
+        }`}>
         <div className="font-bold text-xl w-full">{note.title}</div>
         <div className="text-light w-full">{newFormatTime}</div>
         <div

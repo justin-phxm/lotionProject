@@ -34,10 +34,10 @@ export default function NotesSidebar(props) {
     setFilteredNotes(filteredNotes);
   }, [searchText, notes]);
   return (
-    <div id="userNotes" className="col-span-1 bg-slate-200">
+    <div id="userNotes" className="col-span-1 bg-slate-200 dark:bg-slate-900">
       <div
         id="addNotesBar"
-        className="bg-slate-300 border-b flex flex-row justify-between px-4 font-bold text-xl">
+        className="bg-slate-300 dark:bg-slate-700 border-b flex flex-row justify-between px-4 font-bold text-xl">
         <div>Notes</div>
         <button
           id="newNote"
