@@ -78,9 +78,6 @@ export default function Layout() {
 
     navigate(`/notes/${id}`);
   }
-  function handleSaveClick() {
-    saveNote(selectedNoteID);
-  }
 
   const editorData = {
     showEditor,
@@ -115,11 +112,11 @@ export default function Layout() {
               noteTimeRef,
               quillRef,
               theContentRef,
-              handleSaveClick,
               handleDeleteNote,
               editNote,
+              saveNote,
               showEditor,
-              selectedNote: selectedNoteID,
+              selectedNoteID,
             }}
           />
         </EditorContext.Provider>

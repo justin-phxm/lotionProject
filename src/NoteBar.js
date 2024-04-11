@@ -10,22 +10,21 @@ export default function NoteBar(props) {
     noteTimeRef,
     quillRef,
     theContentRef,
-    handleSaveClick,
     editNote,
     handleDeleteNote,
     showEditor,
     selectedNoteID,
+    saveNote,
   } = props.props;
   const { editMode, setEditMode } = useContext(EditorContext);
   const selectedNote = notes.find((note) => note.id === selectedNoteID);
   const handleEditButton = () => {
     setEditMode(true);
-    console.log(selectedNoteID);
     editNote(selectedNoteID);
   };
   const handleSaveButton = () => {
     setEditMode(false);
-    handleSaveClick();
+    saveNote(selectedNoteID);
   };
   return (
     <div id="noteBar" className="col-span-5">
