@@ -2,6 +2,7 @@ import NotesList from "../NotesList";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { formattedDate } from "../lib/utils";
+import { useState, useEffect } from "react";
 export default function NotesSidebar(props) {
   const { notes, setNotes, setSelect, setShowEditor } = props.props;
   const navigate = useNavigate();
@@ -22,6 +23,16 @@ export default function NotesSidebar(props) {
     });
     navigate(`/notes/${genID}`);
   };
+  const [searchText, setSearchText] = useState("");
+  const [filteredNotes, setFilteredNotes] = useState(notes);
+  useEffect(() => {
+    if (searchText === "") setFilteredNotes(notes);
+    console.log(notes);
+    const filteredNotes = notes.filter((note) => {
+      return note.title.toLowerCase().includes(searchText.toLowerCase());
+    });
+    setFilteredNotes(filteredNotes);
+  }, [searchText, notes]);
   return (
     <div id="userNotes" className="col-span-1 bg-slate-200">
       <div id="addNotesBar" className="bg-slate-300 border-b font-bold text-xl">
@@ -33,9 +44,18 @@ export default function NotesSidebar(props) {
           +
         </button>
       </div>
+      <div className="p-4 w-full">
+        <input
+          type="text"
+          className="bg-inherit w-full p-2 border-b-2 border-slate-300"
+          placeholder="Search for notes..."
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+        />
+      </div>
       <div id="notesContainer">
         <NotesList
-          notes={notes}
+          notes={filteredNotes}
           setSelect={setSelect}
           formattedDate={formattedDate}
         />
