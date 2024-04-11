@@ -11,6 +11,7 @@ export default function Layout() {
   const [notes, setNotes] = useState(storedNotes || []);
   const [selectedNoteID, setSelectedNoteID] = useState();
   const [showEditor, setShowEditor] = useState(false);
+  const [editMode, setEditMode] = useState(false);
   const noteTitleRef = useRef();
   const noteInfoRef = useRef();
   const noteTimeRef = useRef();
@@ -69,22 +70,12 @@ export default function Layout() {
     navigate(`/notes/${id}/edit`);
   }
   function editNote(id) {
-    const editButton = document.getElementById("editButton");
-    const saveButton = document.getElementById("saveButton");
-
-    console.log(theContentRef.current.innerHTML);
     const quill = document.getElementById("quill");
     quill.setAttribute("class", "visible");
 
     const contentDiv = document.getElementById("theContent");
     contentDiv.setAttribute("class", "hidden");
 
-    saveButton.setAttribute(
-      "class",
-      "visible hover:bg-slate-500 h-full p-[3vh]"
-    );
-
-    editButton.setAttribute("class", "hidden");
     navigate(`/notes/${id}`);
   }
   function handleSaveClick() {
@@ -96,6 +87,8 @@ export default function Layout() {
     setShowEditor,
     selected: selectedNoteID,
     setSelect: setSelectedNoteID,
+    editMode,
+    setEditMode,
   };
   return (
     <div className="flex flex-col min-h-screen h-screen">

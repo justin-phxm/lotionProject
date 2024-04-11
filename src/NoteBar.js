@@ -1,6 +1,7 @@
 import React from "react";
 import ReactQuill from "react-quill";
-
+import EditorContext from "./EditorContext";
+import { useContext } from "react";
 export default function NoteBar(props) {
   const {
     notes,
@@ -14,10 +15,18 @@ export default function NoteBar(props) {
     handleDeleteNote,
     showEditor,
     selectedNoteID,
-    saveNote,
   } = props.props;
-
+  const { editMode, setEditMode } = useContext(EditorContext);
   const selectedNote = notes.find((note) => note.id === selectedNoteID);
+  const handleEditButton = () => {
+    setEditMode(true);
+    console.log(selectedNoteID);
+    editNote(selectedNoteID);
+  };
+  const handleSaveButton = () => {
+    setEditMode(false);
+    handleSaveClick();
+  };
   return (
     <div id="noteBar" className="col-span-5">
       <div className={showEditor ? " h-full flex flex-col" : "hidden"}>
@@ -33,14 +42,18 @@ export default function NoteBar(props) {
             <div id="noteButtons" className="text-xl float-right">
               <button
                 id="saveButton"
-                className="hover:bg-slate-500 h-full p-4"
-                onClick={handleSaveClick}>
+                className={
+                  "hover:bg-slate-500 h-full p-4" + (editMode ? "" : " hidden")
+                }
+                onClick={handleSaveButton}>
                 Save
               </button>
               <button
                 id="editButton"
-                className="hover:bg-slate-500 h-full p-4"
-                onClick={() => editNote(selectedNoteID)}>
+                className={
+                  "hover:bg-slate-500 h-full p-4" + (editMode ? " hidden" : "")
+                }
+                onClick={handleEditButton}>
                 Edit
               </button>
               <button
