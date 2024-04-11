@@ -32,6 +32,7 @@ export default function Layout() {
       const newNotes = notes.filter((note) => {
         return note.id !== selectedNoteID;
       });
+      setEditMode(false);
       setNotes(newNotes);
       setShowEditor(false);
       navigate("/");

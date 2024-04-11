@@ -11,10 +11,11 @@ export default function Notes({ note, setSelect, formattedDate }) {
     document.getElementById("noteTitle").value = note.title;
     document.getElementById("noteTime").value = note.date;
     setShowEditor(true);
+    setEditMode(false);
     navigate(`/notes/${note.id}`);
   }
   let newFormatTime = formattedDate(note.date);
-  const { setShowEditor } = useContext(EditorContext);
+  const { setShowEditor, setEditMode } = useContext(EditorContext);
   return (
     <div>
       <button
