@@ -21,13 +21,11 @@ export default function Notes({ note, setSelect, formattedDate }) {
       <button
         id={note.id}
         onClick={handleNoteClick}
-        className="flex flex-col w-full p-4 h-24 bg-slate-500 hover:bg-slate-600 rounded-none text-white text-left">
-        <div className="font-bold overflow-hidden h-12 text-xl w-full">
-          {note.title}
-        </div>
-        <div className="text-sm text-light">{newFormatTime}</div>
+        className="flex text-sm flex-col truncate w-full p-4 h-24 bg-slate-500 hover:bg-slate-600 text-white text-left">
+        <div className="font-bold text-xl w-full">{note.title}</div>
+        <div className="text-light w-full">{newFormatTime}</div>
         <div
-          className="overflow-hidden truncate h-12 text-sm w-full"
+          className="w-full"
           dangerouslySetInnerHTML={{ __html: note.content }}
         />
       </button>
