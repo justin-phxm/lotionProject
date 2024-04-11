@@ -49,24 +49,8 @@ export default function Layout() {
     note.content = quillContent;
     setNotes(newNotes);
 
-    const saveButton = document.getElementById("saveButton");
-    const editButton = document.getElementById("editButton");
-
-    const quill = document.getElementById("quill");
-    quill.setAttribute("class", "hidden");
-
-    // // Show Content
     const contentDiv = document.getElementById("theContent");
     contentDiv.innerHTML = quillContent;
-    contentDiv.setAttribute("class", "visible");
-
-    saveButton.setAttribute("class", "hidden");
-
-    // // Show Edit Button
-    editButton.setAttribute(
-      "class",
-      "visible hover:bg-slate-500 h-full p-[3vh]"
-    );
     navigate(`/notes/${id}/edit`);
   }
   const editorData = {
