@@ -21,7 +21,7 @@ export default function Notes({ note, setSelect, formattedDate }) {
       <button
         id={note.id}
         onClick={handleNoteClick}
-        className="flex text-sm flex-col truncate w-full p-4 h-24 bg-slate-500 hover:bg-slate-600 text-white text-left">
+        className="flex shadow-lg text-sm flex-col truncate w-full p-4 h-24 bg-slate-500 hover:bg-slate-600 text-white text-left">
         <div className="font-bold text-xl w-full">{note.title}</div>
         <div className="text-light w-full">{newFormatTime}</div>
         <div

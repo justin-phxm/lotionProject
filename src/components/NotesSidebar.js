@@ -35,11 +35,13 @@ export default function NotesSidebar(props) {
   }, [searchText, notes]);
   return (
     <div id="userNotes" className="col-span-1 bg-slate-200">
-      <div id="addNotesBar" className="bg-slate-300 border-b font-bold text-xl">
-        Notes
+      <div
+        id="addNotesBar"
+        className="bg-slate-300 border-b flex flex-row justify-between px-4 font-bold text-xl">
+        <div>Notes</div>
         <button
           id="newNote"
-          className="text-xl float-right hover:bg-slate-500"
+          className="text-xl hover:text-slate-500"
           onClick={handleNewNote}>
           +
         </button>
