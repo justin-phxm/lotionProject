@@ -69,21 +69,11 @@ export default function Layout() {
     );
     navigate(`/notes/${id}/edit`);
   }
-  function editNote(id) {
-    const quill = document.getElementById("quill");
-    quill.setAttribute("class", "visible");
-
-    const contentDiv = document.getElementById("theContent");
-    contentDiv.setAttribute("class", "hidden");
-
-    navigate(`/notes/${id}`);
-  }
-
   const editorData = {
     showEditor,
     setShowEditor,
-    selected: selectedNoteID,
-    setSelect: setSelectedNoteID,
+    selectedNoteID,
+    setSelectedNoteID,
     editMode,
     setEditMode,
   };
@@ -113,7 +103,6 @@ export default function Layout() {
               quillRef,
               theContentRef,
               handleDeleteNote,
-              editNote,
               saveNote,
               showEditor,
               selectedNoteID,

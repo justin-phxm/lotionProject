@@ -1,6 +1,7 @@
 import React from "react";
 import ReactQuill from "react-quill";
 import EditorContext from "./EditorContext";
+import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 export default function NoteBar(props) {
   const {
@@ -9,8 +10,6 @@ export default function NoteBar(props) {
     noteInfoRef,
     noteTimeRef,
     quillRef,
-    theContentRef,
-    editNote,
     handleDeleteNote,
     showEditor,
     selectedNoteID,
@@ -18,14 +17,16 @@ export default function NoteBar(props) {
   } = props.props;
   const { editMode, setEditMode } = useContext(EditorContext);
   const selectedNote = notes.find((note) => note.id === selectedNoteID);
+  const navigate = useNavigate();
   const handleEditButton = () => {
     setEditMode(true);
-    editNote(selectedNoteID);
+    navigate(`/notes/${selectedNoteID}`);
   };
   const handleSaveButton = () => {
     setEditMode(false);
     saveNote(selectedNoteID);
   };
+
   return (
     <div id="noteBar" className="col-span-5">
       <div className={showEditor ? " h-full flex flex-col" : "hidden"}>
@@ -77,11 +78,11 @@ export default function NoteBar(props) {
           <ReactQuill
             id="quill"
             ref={quillRef}
-            value={notes.content}
+            value={selectedNote?.content}
             placeholder="Your Note Here"
-            className="h-full"
+            className={"h-full" + (editMode ? "" : " hidden")}
           />
-          <div ref={theContentRef} id="theContent" className="hidden" />
+          <div id="theContent" className={editMode ? "hidden" : ""} />
         </div>
       </div>
       <div
