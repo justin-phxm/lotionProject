@@ -44,7 +44,7 @@ export default function NoteBar(props) {
               <button
                 id="saveButton"
                 className={
-                  "hover:bg-slate-500 h-full" + (editMode ? "" : " hidden")
+                  "hover:text-slate-500 h-full" + (editMode ? "" : " hidden")
                 }
                 onClick={handleSaveButton}>
                 Save
@@ -52,14 +52,14 @@ export default function NoteBar(props) {
               <button
                 id="editButton"
                 className={
-                  "hover:bg-slate-500 h-full" + (editMode ? " hidden" : "")
+                  "hover:text-slate-500 h-full" + (editMode ? " hidden" : "")
                 }
                 onClick={handleEditButton}>
                 Edit
               </button>
               <button
                 id="deleteButton"
-                className="hover:bg-slate-500"
+                className="hover:text-slate-500"
                 onClick={handleDeleteNote}>
                 Delete
               </button>
