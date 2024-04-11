@@ -38,6 +38,7 @@ export default function NoteBar(props) {
               type="text"
               placeholder="Untitled"
               className="border-2 placeholder:text-black outline-blue-500/0 bg-inherit border-blue-500/0 focus:outline-none w-full h-12"
+              disabled={!editMode}
             />
             <div id="noteButtons" className="text-xl flex gap-4 flex-row px-4">
               <button
@@ -71,6 +72,7 @@ export default function NoteBar(props) {
               type="datetime-local"
               className="bg-inherit"
               defaultValue={selectedNote?.date}
+              disabled={!editMode}
             />
           </div>
         </div>
