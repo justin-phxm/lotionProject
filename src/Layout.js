@@ -48,7 +48,6 @@ export default function Layout() {
     note.date = theDate;
     note.content = quillContent;
     setNotes(newNotes);
-
     const contentDiv = document.getElementById("theContent");
     contentDiv.innerHTML = quillContent;
     navigate(`/notes/${id}/edit`);
